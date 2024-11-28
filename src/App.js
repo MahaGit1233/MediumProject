@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import ChocolateForm from "./components/Chocolate/ChocolateForm";
+import ChocolateListItem from "./components/Chocolate/ChocolateListItem";
+import Header from "./components/Header/Header";
+import CartProvider from "./components/Store/CartProvider";
 
 function App() {
+  const [chocolate, setChocolate] = useState([]);
+
+  const chocolateDataHandler = (enteredName, enteredDes, enteredPrice) => {
+    const newChocolate = {
+      name: enteredName,
+      description: enteredDes,
+      price: enteredPrice,
+      id: Math.random(),
+    };
+    setChocolate((prevChocolate) => [...prevChocolate, newChocolate]);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <CartProvider>
+      <Header />
+      <ChocolateForm onChocolateData={chocolateDataHandler} />
+      <ChocolateListItem chocolate={chocolate} />
+    </CartProvider>
   );
 }
 
